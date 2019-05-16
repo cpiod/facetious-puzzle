@@ -4,21 +4,41 @@ __lua__
 function _init()
 	cls(2)
 	d={}
-	d[1]=-8
-	d[2]=8
-	d[4]=-64*16
-	d[8]=64*16
-	for i=10,50 do
-	 circ(64,64,i,rnd(16))
+	d[1]=-16
+	d[2]=16
+	d[4]=-64*32
+	d[8]=64*32
+	for i=10,100 do
+	 circ(64,64,i,rnd(2))
 	end
+	for i=1,15 do
+	 x=rnd(128)
+	 y=rnd(128)
+	 c=rnd(15)
+	 for j=1,rnd(20) do
+	  circ(x,y,j,c+rnd(2))
+	 end
+	end 
 	p=0
-	rectfill(0,0,15,15)
+	rectfill(0,0,31,31,0)
+	e={1,2,4,8}
+--	mix()
+end
+
+function mix()
+for i=0,100 do
+a=d[ceil(rnd(4))]
+_move()
+end
 end
 
 function copy(d,s)
- for i=0,15 do
-  memcpy(0x6000+d+64*i,0x6000+s+64*i,8)
-  memcpy(0x6000+s+64*i,0x2000,8)
+-- todo: dynamic size
+ x=0x6000
+ for i=0,31 do
+  y=64*i
+  memcpy(x+d+y,x+s+y,16)
+  memcpy(x+s+y,0x2000,16)
  end
 end
 function _update()
@@ -26,8 +46,15 @@ function _update()
 -- if(t>0)t-=1;return;
  b=a
  a=d[btn()]
+ _move()
+end
+
+function _move()
  if(a and a!=b) then
   _p=p+a
+  m=_p%2048
+  print(m,60,60)
+  if(_p<0 or _p>=8192 or _m>=16*4) return
   copy(p,_p)
   p=_p
  end
