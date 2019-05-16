@@ -2,62 +2,51 @@ pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
 function _init()
-	cls(2)
-	d={}
-	d[1]=-16
-	d[2]=16
-	d[4]=-64*32
-	d[8]=64*32
-	for i=10,100 do
-	 circ(64,64,i,rnd(2))
+	cls(10)
+	c=2048
+	f=memcpy
+	x=0x6000
+	d={16,-16}
+	d[4]=c
+	d[8]=-c
+	g=circfill
+	g(63,63,60,0)
+	g(63,63,5,10)
+	for i=5,100 do
+	 circ(63,63,i,rnd(2))
 	end
-	for i=1,15 do
-	 x=rnd(128)
-	 y=rnd(128)
-	 c=rnd(15)
-	 for j=1,rnd(20) do
-	  circ(x,y,j,c+rnd(2))
-	 end
-	end 
-	p=0
-	rectfill(0,0,31,31,0)
+	l=line
+	for i=1,4 do
+	 j=32*i-1
+	 l(0,j,127,j,0)
+	 l(j,0,j,127,0)
+	end
+	p=6192
 	e={1,2,4,8}
---	mix()
-end
-
-function mix()
+	for i=0,30 do flip()	end
 for i=0,100 do
-a=d[ceil(rnd(4))]
-_move()
+a=d[2^flr(rnd(4))]
+u()
 end
 end
 
-function copy(d,s)
--- todo: dynamic size
- x=0x6000
- for i=0,31 do
-  y=64*i
-  memcpy(x+d+y,x+s+y,16)
-  memcpy(x+s+y,0x2000,16)
- end
-end
 function _update()
--- cls(2)
--- if(t>0)t-=1;return;
  b=a
  a=d[btn()]
- _move()
+ u()
 end
 
-function _move()
- if(a and a!=b) then
-  _p=p+a
-  m=_p%2048
-  print(m,60,60)
-  if(_p<0 or _p>=8192 or _m>=16*4) return
-  copy(p,_p)
-  p=_p
- end
+function u()
+if(a and a!=b) then
+q=p+a
+if(q<0 or q>=8192 or q%c>=64) return
+for i=0,31 do
+y=64*i
+f(x+p+y,x+q+y,16)
+f(x+q+y,x/3,16)
+end
+p=q
+end
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
