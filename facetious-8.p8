@@ -9,30 +9,39 @@ function _init()
 	d[8]=-c
 	for x=0,127 do
 	for y=0,127 do
+	a=0 b=0
 	if x%32!=0 and y%32!=0 then
-	pset(x,y,1)
+	i=0
+	while i<32 and a*a+b*b<4 do
+	e=a
+	a=a*a-b*b+x/10000-.1011
+	b=2*e*b+y/10000+.9563
+	i+=1
+	end
+	pset(x,y,flr(i/2))
 	end
 	end
 	end
 	p=6192
 	x=0x6000
-	for i=0,30 do flip()	end
+	while t()<1 do end
 for i=0,100 do
 a=d[2^flr(rnd(4))]
 u()
 end
-end
-
-function _update()
+::o::
  b=a
  a=d[btn()]
  u()
+ flip()
+goto o
 end
+
 
 function u()
 if(a and a!=b) then
 q=p+a
-if(q<0 or q>=8192 or q%c>=64) return
+if(q%8192!=q or q%c>=64) return
 for i=0,31 do
 y=64*i
 f(x+p+y,x+q+y,16)
