@@ -1,42 +1,34 @@
 pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
---cls(0)
-c=2048
+cls(0)c=2048
+z=127
 f=memcpy
 d={16,-16,0,c}d[8]=-c
-m=c*(1+rnd(100))
---print(peek2(0x3200),100,10)
-for x=0,127 do
-for y=0,127 do
-a,b,i=0,0,0
-if(x%32==0 or y%32==0)i=32
-while i<32 and a*a+b*b<4 do
+m=c*(1+rnd(100))for x=0,z,2 do
+for y=0,z,2 do
+a,b,i=0,0,0while i<32 and a*a+b*b<4 do
 e=a
 a=a*a-b*b+x/m-.1011
 b=2*e*b+y/m+.9563
-i+=1
+i+=1end
+j=flr(i/2)circfill(x,y,2*(i/2-j),j)end
 end
-pset(x,y,flr(i/2))
-end
-end
+l=line
+for i=31,z,32 do
+l(0,i,z,i,0)l(i,0,i,z,0)end
 p=6192
 x=24576
 g=c
-while t()<5 do end
-::o::
-b=a
-if(g>0)g-=1 a=d[2^flr(rnd(4))]else poke2(12800,2752) a=d[btn()] flip()
-if(not a or a==b) goto o
+while t()<3 do end::_::b=a
+if(g>0)g-=1 a=d[2^flr(rnd(4))]else poke2(12800,2752)a=d[btn()]flip()
+if(not a or a==b)goto _
 q=p+a
-if(q%8192!=q or q%c>=64) sfx(0) goto o
-for i=0,31 do
-y=64*i
-f(x+p+y,x+q+y,16)
-f(x+q+y,0,16)
-end
+if(q%8192!=q or q%c>=64)sfx(0)goto _
+for y=0,1984,64 do
+f(x+p+y,x+q+y,16)f(x+q+y,0,16)end
 p=q
-goto o
+goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
