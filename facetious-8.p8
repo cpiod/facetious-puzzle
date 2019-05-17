@@ -2,27 +2,20 @@ pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
 function _init()
-	cls(10)
+	cls(0)
 	c=2048
 	f=memcpy
-	x=0x6000
-	d={16,-16}
-	d[4]=c
+	d={16,-16,0,c}
 	d[8]=-c
-	g=circfill
-	g(63,63,60,0)
-	g(63,63,5,10)
-	for i=5,100 do
-	 circ(63,63,i,rnd(2))
+	for x=0,127 do
+	for y=0,127 do
+	if x%32!=0 and y%32!=0 then
+	pset(x,y,1)
 	end
-	l=line
-	for i=1,4 do
-	 j=32*i-1
-	 l(0,j,127,j,0)
-	 l(j,0,j,127,0)
+	end
 	end
 	p=6192
-	e={1,2,4,8}
+	x=0x6000
 	for i=0,30 do flip()	end
 for i=0,100 do
 a=d[2^flr(rnd(4))]
